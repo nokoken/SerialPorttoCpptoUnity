@@ -9,9 +9,11 @@
 #include <termios.h>
 #define PORT 12345
 
+// シリアルポートを開き初期化
 int setup_serial(const std::string &port_path)
 {
     int fd = open(port_path.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+    // ポート開くのが失敗した時
     if (fd < 0)
     {
         std::cerr << "Failed to open port: " << port_path << std::endl;
@@ -53,6 +55,7 @@ int setup_serial(const std::string &port_path)
     return fd;
 }
 
+// シリアルポートから送られてきたデータを読み込む
 std::string read_serial_line(const std::string &port_path)
 {
     int fd = open(port_path.c_str(), O_RDONLY | O_NOCTTY | O_NONBLOCK);
@@ -90,6 +93,7 @@ std::string read_serial_line(const std::string &port_path)
     // return line;
 }
 
+// Unity側へTCP方式で通信を行う
 void tcp_server_loop(const std::string &port_path)
 {
     int server_fd, new_socket;
